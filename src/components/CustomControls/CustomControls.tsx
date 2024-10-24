@@ -1,14 +1,15 @@
 import React, { } from 'react';
 import { Controls, ControlButton, useReactFlow } from 'reactflow';
-import { MdZoomIn, MdZoomOut, MdFitScreen, MdSave, MdRestore, MdAdd } from 'react-icons/md';
+import { MdZoomIn, MdZoomOut, MdFitScreen, MdSave, MdRestore, MdAdd, MdAutoDelete } from 'react-icons/md';
 
 type CustomControlsProps = {
   onAddNode: () => void;
   onSave: () => void;
   onRestore: () => void;
+  onClearChart: () => void;
 };
 
-const CustomControls: React.FC<CustomControlsProps> = ({ onAddNode, onSave, onRestore }) => {
+const CustomControls: React.FC<CustomControlsProps> = ({ onAddNode, onSave, onRestore, onClearChart }) => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   return (
@@ -16,11 +17,14 @@ const CustomControls: React.FC<CustomControlsProps> = ({ onAddNode, onSave, onRe
       <ControlButton onClick={onAddNode} title="Add Node">
         <MdAdd />
       </ControlButton>
-      <ControlButton onClick={onSave} title="Save">
+      <ControlButton onClick={onSave} title="Save Chart">
         <MdSave />
       </ControlButton>
-      <ControlButton onClick={onRestore} title="Restore">
+      <ControlButton onClick={onRestore} title="Restore Chart">
         <MdRestore />
+      </ControlButton>
+      <ControlButton onClick={onClearChart} title="Clear Chart">
+        <MdAutoDelete />
       </ControlButton>
       <ControlButton onClick={() => zoomIn()} title="zoom in">
         <MdZoomIn />

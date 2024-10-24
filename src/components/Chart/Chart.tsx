@@ -1,9 +1,15 @@
-import ReactFlow, { Background, BackgroundVariant, MarkerType, Panel, Controls, ControlButton } from 'reactflow';
-import { useState } from 'react';
+import ReactFlow, { Background, BackgroundVariant, MarkerType, useReactFlow } from 'reactflow';
+import { useState, useCallback } from 'react';
 import 'reactflow/dist/style.css';
 import { CustomControls } from '@components/CustomControls';
+import { saveFlow, restoreFlow } from '@utils/Chart'
 import { createNode } from '@utils/Nodes';
 
+// TODO: Move Nodes
+// TODO: Remove nodes
+// TODO: Connect Nodes
+
+const flowKey = "flow-forge"
 const initialNodes = [
   {
     id: '1',
@@ -41,24 +47,41 @@ const initialEdges = [
 ];
 
 export const Chart = () => {
+  const { fitView, setViewport } = useReactFlow();
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
-  const saveChart = () => {
-    console.log("Saved");
-  }
+  const saveChart = useCallback(() => {
+    const viewport = { x: 0, y: 0, zoom: 1 };
+    saveFlow(flowKey, nodes, edges, viewport);
+  }, [nodes, edges]);
 
-  const restoreChart = () => {
-    console.log("Restored")
-  }
+  const restoreChart = useCallback(() => {
+    const flow = restoreFlow(flowKey);
+    if (flow) {
+      setNodes(flow.nodes || []);
+      setEdges(flow.edges || []);
+
+      if (flow.viewport) {
+        setViewport({
+          x: flow.viewport.x || 0,
+          y: flow.viewport.y || 0,
+          zoom: flow.viewport.zoom || 1
+        });
+      }
+    }
+  }, [setNodes, setEdges, setViewport]);
 
   const addNode = () => {
-    console.log("Adding a node!")
     const newNode = createNode(nodes);
-    console.log("New Node: ", newNode)
-    setNodes((currNodes) => currNodes.concat(newNode))
-    console.log("Node State: ", nodes)
+    setNodes((currNodes) => currNodes.concat(newNode));
   }
+
+  const clearChart = (): void => {
+    saveChart();
+    setNodes([]);
+    setEdges([]);
+  };
 
   return (
     <>
@@ -68,6 +91,7 @@ export const Chart = () => {
             onAddNode={addNode}
             onSave={saveChart}
             onRestore={restoreChart}
+            onClearChart={clearChart}
           />
           <Background color="#ccc" variant={BackgroundVariant.Dots} />
         </ReactFlow>
@@ -75,3 +99,4 @@ export const Chart = () => {
     </>
   );
 }
+
