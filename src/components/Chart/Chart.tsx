@@ -1,7 +1,8 @@
 import ReactFlow, { Background, BackgroundVariant, MarkerType, Panel, Controls, ControlButton } from 'reactflow';
-
+import { useState } from 'react';
 import 'reactflow/dist/style.css';
 import { CustomControls } from '@components/CustomControls';
+import { createNode } from '@utils/Nodes';
 
 const initialNodes = [
   {
@@ -40,6 +41,8 @@ const initialEdges = [
 ];
 
 export const Chart = () => {
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
 
   const saveChart = () => {
     console.log("Saved");
@@ -50,12 +53,17 @@ export const Chart = () => {
   }
 
   const addNode = () => {
-    console.log("Added")
+    console.log("Adding a node!")
+    const newNode = createNode(nodes);
+    console.log("New Node: ", newNode)
+    setNodes((currNodes) => currNodes.concat(newNode))
+    console.log("Node State: ", nodes)
   }
+
   return (
     <>
       <div style={{ width: '90vw', height: '90vh' }}>
-        <ReactFlow nodes={initialNodes} edges={initialEdges} >
+        <ReactFlow nodes={nodes} edges={edges} >
           <CustomControls
             onAddNode={addNode}
             onSave={saveChart}

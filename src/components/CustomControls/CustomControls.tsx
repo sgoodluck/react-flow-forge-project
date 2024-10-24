@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { } from 'react';
 import { Controls, ControlButton, useReactFlow } from 'reactflow';
 import { MdZoomIn, MdZoomOut, MdFitScreen, MdSave, MdRestore, MdAdd } from 'react-icons/md';
 
@@ -9,7 +9,7 @@ type CustomControlsProps = {
 };
 
 const CustomControls: React.FC<CustomControlsProps> = ({ onAddNode, onSave, onRestore }) => {
-  const { zoomIn, zoomOut, fitView, getNodes, getEdges, setNodes, setEdges } = useReactFlow();
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   return (
     <Controls showInteractive={false} showZoom={false} showFitView={false}>
