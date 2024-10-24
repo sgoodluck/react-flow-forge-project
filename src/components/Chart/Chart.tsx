@@ -1,6 +1,7 @@
-import ReactFlow, { Background, BackgroundVariant, MarkerType } from 'reactflow';
+import ReactFlow, { Background, BackgroundVariant, MarkerType, Panel, Controls, ControlButton } from 'reactflow';
 
 import 'reactflow/dist/style.css';
+import { CustomControls } from '@components/CustomControls';
 
 const initialNodes = [
   {
@@ -39,11 +40,30 @@ const initialEdges = [
 ];
 
 export const Chart = () => {
+
+  const saveChart = () => {
+    console.log("Saved");
+  }
+
+  const restoreChart = () => {
+    console.log("Restored")
+  }
+
+  const addNode = () => {
+    console.log("Added")
+  }
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow nodes={initialNodes} edges={initialEdges} >
-        <Background color="#ccc" variant={BackgroundVariant.Dots} />
-      </ReactFlow>
-    </div>
+    <>
+      <div style={{ width: '90vw', height: '90vh' }}>
+        <ReactFlow nodes={initialNodes} edges={initialEdges} >
+          <CustomControls
+            onAddNode={addNode}
+            onSave={saveChart}
+            onRestore={restoreChart}
+          />
+          <Background color="#ccc" variant={BackgroundVariant.Dots} />
+        </ReactFlow>
+      </div>
+    </>
   );
 }
