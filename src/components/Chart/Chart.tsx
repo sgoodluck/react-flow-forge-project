@@ -92,6 +92,10 @@ export const Chart = () => {
     restoreChart(flowKey, setNodes, setEdges, setViewport);
   }, [setNodes, setEdges, setViewport]);
 
+  const closeContextMenu = () => {
+    setMenu(null);
+  };
+
   return (
     <div className="h-screen w-screen">
       <ReactFlow
@@ -117,7 +121,9 @@ export const Chart = () => {
           }}
         />
         <Background color="#ccc" variant={BackgroundVariant.Dots} />
-        {menu && <ContextMenu {...menu} />}
+
+        {/* Render Context Menu with close function */}
+        {menu && <ContextMenu {...menu} onClose={closeContextMenu} />}
       </ReactFlow>
     </div>
   );
