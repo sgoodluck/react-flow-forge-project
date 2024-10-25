@@ -41,6 +41,7 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
           type="target"
           position={Position.Left}
           isConnectable={isConnectable}
+          className="size-2 rounded-full border-gray-200 bg-gray-200"
         />
 
         {/* Checkmark Icon */}
@@ -78,6 +79,7 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
           type="source"
           position={Position.Right}
           isConnectable={isConnectable}
+          className="size-2 rounded border-gray-200 bg-gray-200"
         />
       </div>
     </div>
