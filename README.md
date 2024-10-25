@@ -8,10 +8,7 @@
 - To duplicate, delete, or mark a node as complete, use the **Context Menu** by right clicking a node and selecting the desired function
 - Additional functionality is available via the **Control Panel** in the bottom left (you may hover to see each function)
 
-
-
-https://github.com/user-attachments/assets/15dc7ca5-ba2f-44e7-b159-ccea0750cf65
-
+![2024-10-25-135613_hyprshot](https://github.com/user-attachments/assets/32abceef-5941-40a2-9fef-1d689f1131ef)
 
 
 ### Summary
