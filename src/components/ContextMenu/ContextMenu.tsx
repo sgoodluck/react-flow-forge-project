@@ -1,7 +1,6 @@
-
-import { generateNodeId } from '@utils/Nodes';
-import { useCallback } from 'react';
-import { useReactFlow, Node, Edge } from 'reactflow'
+import { generateNodeId } from "@utils/Nodes";
+import { useCallback } from "react";
+import { useReactFlow, Node, Edge } from "reactflow";
 
 interface ContextMenuProps {
   id: string;
@@ -48,14 +47,22 @@ export const ContextMenu = ({
   return (
     <div
       style={{ top, left, right, bottom }}
-      className="context-menu"
+      className="absolute z-10 rounded border border-gray-200 bg-white text-gray-600 shadow-lg"
       {...props}
     >
-      <p style={{ margin: '0.5em' }}>
-        <small>node: {id}</small>
-      </p>
-      <button onClick={duplicateNode}>Duplicate</button>
-      <button onClick={deleteNode}>Delete</button>
+      <p className="m-2 text-xs">node: {id}</p>
+      <button
+        className="block w-full px-4 py-2 text-left text-gray-600 transition-colors duration-200 hover:bg-gray-100"
+        onClick={duplicateNode}
+      >
+        Duplicate
+      </button>
+      <button
+        className="block w-full px-4 py-2 text-left transition-colors duration-200 hover:bg-gray-100"
+        onClick={deleteNode}
+      >
+        Delete
+      </button>
     </div>
   );
-}
+};

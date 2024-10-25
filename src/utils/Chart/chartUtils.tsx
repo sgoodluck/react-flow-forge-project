@@ -1,5 +1,9 @@
-
-export const saveFlow = (flowKey: string, nodes: any[], edges: any[], viewport: { x: number; y: number; zoom: number }) => {
+export const saveFlow = (
+  flowKey: string,
+  nodes: any[],
+  edges: any[],
+  viewport: { x: number; y: number; zoom: number },
+) => {
   const flowData = {
     nodes,
     edges,
@@ -15,7 +19,7 @@ export const restoreFlow = (flowKey: string) => {
   if (flowData) {
     return JSON.parse(flowData);
   } else {
-    console.log('No saved chart available');
+    console.log("No saved chart available");
     return null;
   }
 };

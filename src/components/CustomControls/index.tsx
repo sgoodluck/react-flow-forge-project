@@ -1,4 +1,3 @@
-import CustomControls from './CustomControls'
+import CustomControls from "./CustomControls";
 
-export { CustomControls }
-
+export { CustomControls };

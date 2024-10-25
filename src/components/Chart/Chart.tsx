@@ -1,10 +1,20 @@
-import ReactFlow, { addEdge, Background, BackgroundVariant, MarkerType, useReactFlow, useNodesState, useEdgesState, Connection, Node } from 'reactflow';
-import { useCallback, useRef, useState } from 'react';
-import 'reactflow/dist/style.css';
-import { CustomControls } from '@components/CustomControls';
-import { saveFlow, restoreFlow } from '@utils/Chart'
-import { createNode } from '@utils/Nodes';
-import { ContextMenu } from '@components/ContextMenu';
+import ReactFlow, {
+  addEdge,
+  Background,
+  BackgroundVariant,
+  MarkerType,
+  useReactFlow,
+  useNodesState,
+  useEdgesState,
+  Connection,
+  Node,
+} from "reactflow";
+import { useCallback, useRef, useState } from "react";
+import "reactflow/dist/style.css";
+import { CustomControls } from "@components/CustomControls";
+import { saveFlow, restoreFlow } from "@utils/Chart";
+import { createNode } from "@utils/Nodes";
+import { ContextMenu } from "@components/ContextMenu";
 
 interface MenuPosition {
   id: string;
@@ -14,40 +24,40 @@ interface MenuPosition {
   bottom?: number;
 }
 
-const flowKey = "flow-forge"
+const flowKey = "flow-forge";
 const initialNodes = [
   {
-    id: '1',
+    id: "1",
     position: { x: 0, y: 0 },
-    data: { label: '1' }
+    data: { label: "1" },
   },
   {
-    id: '2',
+    id: "2",
     position: { x: 0, y: 100 },
-    data: { label: '2' }
+    data: { label: "2" },
   },
   {
-    id: '3',
+    id: "3",
     position: { x: 0, y: 200 },
-    data: { label: '3' }
+    data: { label: "3" },
   },
 ];
 const initialEdges = [
   {
-    id: 'e1-2',
-    source: '1',
-    target: '2',
+    id: "e1-2",
+    source: "1",
+    target: "2",
     markerend: {
       type: MarkerType.ArrowClosed,
-    }
+    },
   },
   {
-    id: 'e2-3',
-    source: '2',
-    target: '3',
+    id: "e2-3",
+    source: "2",
+    target: "3",
     markerend: {
       type: MarkerType.ArrowClosed,
-    }
+    },
   },
 ];
 
@@ -61,8 +71,7 @@ export const Chart = () => {
   const addNode = () => {
     const newNode = createNode();
     setNodes((currNodes) => currNodes.concat(newNode));
-
-  }
+  };
   const connectNodes = useCallback(
     (params: Connection) => setEdges((els) => addEdge(params, els)),
     [setEdges],
@@ -84,7 +93,7 @@ export const Chart = () => {
         });
       }
     },
-    [setMenu]
+    [setMenu],
   );
 
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
@@ -104,7 +113,7 @@ export const Chart = () => {
         setViewport({
           x: flow.viewport.x || 0,
           y: flow.viewport.y || 0,
-          zoom: flow.viewport.zoom || 1
+          zoom: flow.viewport.zoom || 1,
         });
       }
     }
@@ -118,7 +127,7 @@ export const Chart = () => {
 
   return (
     <>
-      <div style={{ width: '90vw', height: '90vh' }}>
+      <div className="h-screen w-screen">
         <ReactFlow
           fitView
           ref={paneRef}
@@ -143,5 +152,4 @@ export const Chart = () => {
       </div>
     </>
   );
-}
-
+};
