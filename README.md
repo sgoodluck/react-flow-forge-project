@@ -8,6 +8,9 @@
 - To duplicate, delete, or mark a node as complete, use the **Context Menu** by right clicking a node and selecting the desired function
 - Additional functionality is available via the **Control Panel** in the bottom left (you may hover to see each function)
 
+![2024-10-25 13-34-22](https://github.com/user-attachments/assets/db924b0a-57ac-47ab-8d4f-31e5a8dfca60)
+
+
 ### Summary
 
 Overall, I enjoyed this project. The React Flow library was extremely well documented and enjoyable to use. I spent approximately 5 hours or so. That also includes some setup time for my machine (recently switched to a fresh NixOS install which was its own mini project).
