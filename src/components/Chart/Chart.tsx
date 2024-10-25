@@ -1,12 +1,11 @@
-import ReactFlow, { Background, BackgroundVariant, MarkerType, useReactFlow, useNodesState, useEdgesState } from 'reactflow';
-import { useState, useCallback } from 'react';
+import ReactFlow, { addEdge, Background, BackgroundVariant, MarkerType, useReactFlow, useNodesState, useEdgesState, NodeProps, Connection } from 'reactflow';
+import { useCallback } from 'react';
 import 'reactflow/dist/style.css';
 import { CustomControls } from '@components/CustomControls';
 import { saveFlow, restoreFlow } from '@utils/Chart'
 import { createNode } from '@utils/Nodes';
 
 // TODO: Remove nodes
-// TODO: Connect Nodes
 
 const flowKey = "flow-forge"
 const initialNodes = [
@@ -50,6 +49,16 @@ export const Chart = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const addNode = () => {
+    const newNode = createNode(nodes);
+    setNodes((currNodes) => currNodes.concat(newNode));
+
+  }
+  const connectNodes = useCallback(
+    (params: Connection) => setEdges((els) => addEdge(params, els)),
+    [setEdges],
+  );
+
   const saveChart = useCallback(() => {
     const viewport = getViewport() || { x: 0, y: 0, zoom: 1 };
     saveFlow(flowKey, nodes, edges, viewport);
@@ -71,11 +80,6 @@ export const Chart = () => {
     }
   }, [setNodes, setEdges, setViewport]);
 
-  const addNode = () => {
-    const newNode = createNode(nodes);
-    setNodes((currNodes) => currNodes.concat(newNode));
-  }
-
   const clearChart = (): void => {
     saveChart();
     setNodes([]);
@@ -85,7 +89,14 @@ export const Chart = () => {
   return (
     <>
       <div style={{ width: '90vw', height: '90vh' }}>
-        <ReactFlow nodes={nodes} edges={edges} nodesDraggable={true} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodesDraggable={true}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={connectNodes}
+        >
           <CustomControls
             onAddNode={addNode}
             onSave={saveChart}
