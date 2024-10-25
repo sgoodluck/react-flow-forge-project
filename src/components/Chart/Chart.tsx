@@ -8,6 +8,7 @@ import ReactFlow, {
   useEdgesState,
   Connection,
   Node,
+  Position,
 } from "reactflow";
 import { useCallback, useRef, useState } from "react";
 import "reactflow/dist/style.css";
@@ -28,17 +29,23 @@ const flowKey = "flow-forge";
 const initialNodes = [
   {
     id: "1",
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     position: { x: 0, y: 0 },
     data: { label: "1" },
   },
   {
     id: "2",
-    position: { x: 0, y: 100 },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+    position: { x: 200, y: 0 },
     data: { label: "2" },
   },
   {
     id: "3",
-    position: { x: 0, y: 200 },
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
+    position: { x: 400, y: 0 },
     data: { label: "3" },
   },
 ];

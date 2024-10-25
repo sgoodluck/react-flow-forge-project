@@ -1,9 +1,11 @@
-import { Node } from "reactflow";
+import { Node, Position } from "reactflow";
 
 export const createNode = (): Node => {
   const newNodeId = generateNodeId();
   return {
     id: newNodeId,
+    sourcePosition: Position.Right,
+    targetPosition: Position.Left,
     data: { label: `Node` },
     position: { x: Math.random() * 250, y: Math.random() * 250 },
   };
