@@ -9,7 +9,9 @@
 - Additional functionality is available via the **Control Panel** in the bottom left (you may hover to see each function)
 
 
-https://github.com/user-attachments/assets/d479df42-cd79-46e8-90ef-778205dc9a8a
+
+https://github.com/user-attachments/assets/15dc7ca5-ba2f-44e7-b159-ccea0750cf65
+
 
 
 ### Summary
