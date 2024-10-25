@@ -11,7 +11,7 @@ import ReactFlow, {
   Position,
   NodeTypes,
 } from "reactflow";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "reactflow/dist/style.css";
 import { CustomControls } from "@components/CustomControls";
 import { saveFlow, restoreFlow } from "@utils/Chart";
@@ -19,6 +19,7 @@ import { createNode } from "@utils/Nodes";
 import { ContextMenu } from "@components/ContextMenu";
 import { CustomNodeData, MenuPosition } from "@utils/interfaces";
 import { CustomNode } from "@components/CustomNode";
+import { updateNodeStates } from "@utils/Nodes/nodeUtils";
 
 const flowKey = "flow-forge";
 const nodeTypes: NodeTypes = {
@@ -32,7 +33,12 @@ const initialNodes: Node<CustomNodeData>[] = [
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     position: { x: 0, y: 0 },
-    data: { label: "Task A", onLabelChange: () => {} },
+    data: {
+      label: "Task A",
+      onLabelChange: () => {},
+      isActive: false,
+      isComplete: false,
+    },
   },
   {
     id: "Sample-2",
@@ -40,7 +46,12 @@ const initialNodes: Node<CustomNodeData>[] = [
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     position: { x: 300, y: 0 },
-    data: { label: "Task B", onLabelChange: () => {} },
+    data: {
+      label: "Task B",
+      onLabelChange: () => {},
+      isActive: false,
+      isComplete: false,
+    },
   },
   {
     id: "Sample-3",
@@ -48,7 +59,12 @@ const initialNodes: Node<CustomNodeData>[] = [
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     position: { x: 600, y: 0 },
-    data: { label: "Task C", onLabelChange: () => {} },
+    data: {
+      label: "Task C",
+      onLabelChange: () => {},
+      isActive: false,
+      isComplete: false,
+    },
   },
 ];
 
@@ -77,6 +93,13 @@ export const Chart = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [menu, setMenu] = useState<MenuPosition | null>(null);
   const paneRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updatedNodes = updateNodeStates(nodes, edges);
+    if (JSON.stringify(updatedNodes) !== JSON.stringify(nodes)) {
+      setNodes(updatedNodes);
+    }
+  }, [nodes, edges, setNodes]);
 
   const updateNodeLabel = useCallback(
     (nodeId: string, newLabel: string) => {
