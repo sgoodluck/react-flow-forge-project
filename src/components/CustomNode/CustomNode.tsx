@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { Handle, Position, NodeProps } from "reactflow";
 import { CustomNodeData } from "@utils/interfaces";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid"; // Import the check badge icon
 
 const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
   id,
@@ -39,6 +40,13 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
           position={Position.Left}
           isConnectable={isConnectable}
         />
+
+        {/* Checkmark Icon */}
+        {data.isComplete && (
+          <div className="absolute right-2 top-2">
+            <CheckBadgeIcon className="h-5 w-5 text-green-500" />
+          </div>
+        )}
 
         {/* Node Label + Input */}
         {isEditing ? (

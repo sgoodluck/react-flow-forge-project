@@ -45,7 +45,9 @@ export const updateNodeStates = (
       (edge) => nodeMap.get(edge.source)?.data.isComplete,
     );
 
-    const isActive = isStartNode || allInputsComplete;
+    // Set isActive based on completion status
+    const isActive =
+      !node.data.isComplete && (isStartNode || allInputsComplete);
 
     return {
       ...node,
