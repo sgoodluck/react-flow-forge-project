@@ -12,3 +12,13 @@ export interface MenuPosition {
   right?: number;
   bottom?: number;
 }
+
+export interface ContextMenuProps {
+  id: string;
+  top?: number | string;
+  left?: number | string;
+  right?: number | string;
+  bottom?: number | string;
+  onClick?: () => void; // Add this line
+  [key: string]: any;
+}

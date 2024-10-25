@@ -1,91 +1,32 @@
 import ReactFlow, {
-  addEdge,
   Background,
   BackgroundVariant,
-  MarkerType,
   useReactFlow,
   useNodesState,
   useEdgesState,
   Connection,
-  Node,
-  Position,
   NodeTypes,
+  Node,
 } from "reactflow";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "reactflow/dist/style.css";
 import { CustomControls } from "@components/CustomControls";
-import { saveFlow, restoreFlow } from "@utils/Chart";
-import { createNode } from "@utils/Nodes";
 import { ContextMenu } from "@components/ContextMenu";
-import { CustomNodeData, MenuPosition } from "@utils/interfaces";
+import { MenuPosition } from "@utils/interfaces";
 import { CustomNode } from "@components/CustomNode";
 import { updateNodeStates } from "@utils/Nodes/nodeUtils";
+import {
+  saveChart,
+  restoreChart,
+  addNode as addNodeUtil,
+  connectNodes as connectNodesUtil,
+} from "@utils/Chart";
+import { initialEdges, initialNodes } from "@utils/initialGraph";
 
 const flowKey = "flow-forge";
 const nodeTypes: NodeTypes = {
   custom: CustomNode,
 };
-
-const initialNodes: Node<CustomNodeData>[] = [
-  {
-    id: "Sample-1",
-    type: "custom",
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    position: { x: 0, y: 0 },
-    data: {
-      label: "Task A",
-      onLabelChange: () => {},
-      isActive: false,
-      isComplete: false,
-    },
-  },
-  {
-    id: "Sample-2",
-    type: "custom",
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    position: { x: 300, y: 0 },
-    data: {
-      label: "Task B",
-      onLabelChange: () => {},
-      isActive: false,
-      isComplete: false,
-    },
-  },
-  {
-    id: "Sample-3",
-    type: "custom",
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
-    position: { x: 600, y: 0 },
-    data: {
-      label: "Task C",
-      onLabelChange: () => {},
-      isActive: false,
-      isComplete: false,
-    },
-  },
-];
-
-const initialEdges = [
-  {
-    id: "e1-2",
-    source: "Sample-1",
-    target: "Sample-2",
-    markerend: {
-      type: MarkerType.ArrowClosed,
-    },
-  },
-  {
-    id: "e2-3",
-    source: "Sample-2",
-    target: "Sample-3",
-    markerend: {
-      type: MarkerType.ArrowClosed,
-    },
-  },
-];
 
 export const Chart = () => {
   const { getViewport, setViewport } = useReactFlow();
@@ -99,37 +40,33 @@ export const Chart = () => {
     if (JSON.stringify(updatedNodes) !== JSON.stringify(nodes)) {
       setNodes(updatedNodes);
     }
-  }, [nodes, edges, setNodes]);
+  }, [nodes, edges]);
 
   const updateNodeLabel = useCallback(
     (nodeId: string, newLabel: string) => {
       setNodes((nodes) =>
-        nodes.map((node) => {
-          if (node.id === nodeId) {
-            return { ...node, data: { ...node.data, label: newLabel } };
-          }
-          return node;
-        }),
+        nodes.map((node) =>
+          node.id === nodeId
+            ? { ...node, data: { ...node.data, label: newLabel } }
+            : node,
+        ),
       );
     },
     [setNodes],
   );
 
   const addNode = useCallback(() => {
-    const newNode = createNode();
-    newNode.data.onLabelChange = updateNodeLabel;
-    setNodes((currNodes) => currNodes.concat(newNode));
-  }, [updateNodeLabel, setNodes]);
+    addNodeUtil(setNodes, updateNodeLabel);
+  }, [updateNodeLabel]);
 
   const connectNodes = useCallback(
-    (params: Connection) => setEdges((els) => addEdge(params, els)),
+    (params: Connection) => connectNodesUtil(setEdges)(params),
     [setEdges],
   );
 
   const onNodeContextMenu = useCallback(
     (event: React.MouseEvent, node: Node) => {
       event.preventDefault();
-
       const pane = paneRef.current?.getBoundingClientRect();
       if (pane) {
         const x = event.clientX - pane.left;
@@ -147,59 +84,41 @@ export const Chart = () => {
 
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
-  const saveChart = useCallback(() => {
-    const viewport = getViewport() || { x: 0, y: 0, zoom: 1 };
-    saveFlow(flowKey, nodes, edges, viewport);
+  const saveCurrentChart = useCallback(() => {
+    saveChart(flowKey, nodes, edges, getViewport);
   }, [nodes, edges]);
 
-  const restoreChart = useCallback(() => {
-    const flow = restoreFlow(flowKey);
-    if (flow) {
-      setNodes(flow.nodes || []);
-      setEdges(flow.edges || []);
-
-      if (flow.viewport) {
-        setViewport({
-          x: flow.viewport.x || 0,
-          y: flow.viewport.y || 0,
-          zoom: flow.viewport.zoom || 1,
-        });
-      }
-    }
+  const restoreCurrentChart = useCallback(() => {
+    restoreChart(flowKey, setNodes, setEdges, setViewport);
   }, [setNodes, setEdges, setViewport]);
 
-  const clearChart = (): void => {
-    saveChart();
-    setNodes([]);
-    setEdges([]);
-  };
-
   return (
-    <>
-      <div className="h-screen w-screen">
-        <ReactFlow
-          fitView
-          ref={paneRef}
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          nodesDraggable={true}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={connectNodes}
-          onNodeContextMenu={onNodeContextMenu}
-          onPaneClick={onPaneClick}
-        >
-          <CustomControls
-            onAddNode={addNode}
-            onSave={saveChart}
-            onRestore={restoreChart}
-            onClearChart={clearChart}
-          />
-          <Background color="#ccc" variant={BackgroundVariant.Dots} />
-          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
-        </ReactFlow>
-      </div>
-    </>
+    <div className="h-screen w-screen">
+      <ReactFlow
+        fitView
+        ref={paneRef}
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={connectNodes}
+        onNodeContextMenu={onNodeContextMenu}
+        onPaneClick={onPaneClick}
+      >
+        <CustomControls
+          onAddNode={addNode}
+          onSave={saveCurrentChart}
+          onRestore={restoreCurrentChart}
+          onClearChart={() => {
+            saveCurrentChart();
+            setNodes([]);
+            setEdges([]);
+          }}
+        />
+        <Background color="#ccc" variant={BackgroundVariant.Dots} />
+        {menu && <ContextMenu {...menu} />}
+      </ReactFlow>
+    </div>
   );
 };

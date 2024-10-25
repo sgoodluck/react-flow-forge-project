@@ -1,3 +1,3 @@
-import { saveFlow, restoreFlow } from "./chartUtils";
+import { saveChart, restoreChart, addNode, connectNodes } from "./chartUtils";
 
-export { saveFlow, restoreFlow };
+export { saveChart, restoreChart, addNode, connectNodes };

@@ -1,7 +1,12 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { Handle, Position, NodeProps } from "reactflow";
 import { CustomNodeData } from "@utils/interfaces";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid"; // Import the check badge icon
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import {
+  handleLabelChange,
+  handleLabelBlur,
+  handleKeyDown,
+} from "@utils/CustomNode";
 
 const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
   id,
@@ -9,22 +14,19 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
   isConnectable,
 }) => {
   const [label, setLabel] = useState(data.label);
-  const [isEditing, setIsEditing] = useState(false); // State to control input visibility
+  const [isEditing, setIsEditing] = useState(false);
 
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setLabel(event.target.value);
+    handleLabelChange(event, setLabel);
   }, []);
 
   const onBlur = useCallback(() => {
-    data.onLabelChange(id, label);
-    setIsEditing(false); // Hide input after blur
+    handleLabelBlur(id, label, data, setIsEditing);
   }, [id, label, data]);
 
-  const handleKeyDown = useCallback(
+  const keyDownHandler = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === "Enter") {
-        onBlur(); // Call onBlur when Enter is pressed
-      }
+      handleKeyDown(event, onBlur);
     },
     [onBlur],
   );
@@ -55,14 +57,14 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
             value={label}
             onChange={onChange}
             onBlur={onBlur}
-            onKeyDown={handleKeyDown}
+            onKeyDown={keyDownHandler}
             placeholder="Describe Task..."
             autoFocus
           />
         ) : (
           <div
             className="mt-1 cursor-pointer text-sm text-white"
-            onClick={() => setIsEditing(true)} // Show input on click
+            onClick={() => setIsEditing(true)}
           >
             {label}
           </div>

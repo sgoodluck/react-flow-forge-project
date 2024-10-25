@@ -1,6 +1,7 @@
 import { Edge, Node, Position } from "reactflow";
 import { CustomNodeData } from "@utils/interfaces";
 
+// Utility function create a new node
 export const createNode = (): Node<CustomNodeData> => {
   const newNodeId = generateNodeId();
   return {
@@ -18,6 +19,7 @@ export const createNode = (): Node<CustomNodeData> => {
   };
 };
 
+// Utility function to generate a random node id
 export const generateNodeId = (length: number = 8): string => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -29,6 +31,7 @@ export const generateNodeId = (length: number = 8): string => {
   return result;
 };
 
+// Utility function to update node state
 export const updateNodeStates = (
   nodes: Node<CustomNodeData>[],
   edges: Edge[],
