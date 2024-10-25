@@ -1,11 +1,10 @@
-import ReactFlow, { Background, BackgroundVariant, MarkerType, useReactFlow } from 'reactflow';
+import ReactFlow, { Background, BackgroundVariant, MarkerType, useReactFlow, useNodesState, useEdgesState } from 'reactflow';
 import { useState, useCallback } from 'react';
 import 'reactflow/dist/style.css';
 import { CustomControls } from '@components/CustomControls';
 import { saveFlow, restoreFlow } from '@utils/Chart'
 import { createNode } from '@utils/Nodes';
 
-// TODO: Move Nodes
 // TODO: Remove nodes
 // TODO: Connect Nodes
 
@@ -47,12 +46,12 @@ const initialEdges = [
 ];
 
 export const Chart = () => {
-  const { fitView, setViewport } = useReactFlow();
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const { getViewport, setViewport } = useReactFlow();
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const saveChart = useCallback(() => {
-    const viewport = { x: 0, y: 0, zoom: 1 };
+    const viewport = getViewport() || { x: 0, y: 0, zoom: 1 };
     saveFlow(flowKey, nodes, edges, viewport);
   }, [nodes, edges]);
 
@@ -86,7 +85,7 @@ export const Chart = () => {
   return (
     <>
       <div style={{ width: '90vw', height: '90vh' }}>
-        <ReactFlow nodes={nodes} edges={edges} >
+        <ReactFlow nodes={nodes} edges={edges} nodesDraggable={true} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange}>
           <CustomControls
             onAddNode={addNode}
             onSave={saveChart}
