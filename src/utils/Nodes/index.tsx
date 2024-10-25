@@ -1,4 +1,4 @@
 
-import { createNode } from './nodeUtils';
+import { createNode, generateNodeId } from './nodeUtils';
 
-export { createNode };
+export { createNode, generateNodeId };
