@@ -2,6 +2,12 @@
 
 ## Project Completion
 
+### Instructions for use
+
+- Moving and connecting nodes work as standard with react flow.
+- To duplicate, delete, or mark a node as complete, use the **Context Menu** by right clicking a node and selecting the desired function
+- Additional functionality is available via the **Control Panel** in the bottom left (you may hover to see each function)
+
 ### Summary
 
 Overall, I enjoyed this project. The React Flow library was extremely well documented and enjoyable to use. I spent approximately 5 hours or so. That also includes some setup time for my machine (recently switched to a fresh NixOS install which was its own mini project).
