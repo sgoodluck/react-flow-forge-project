@@ -8,7 +8,8 @@
 - To duplicate, delete, or mark a node as complete, use the **Context Menu** by right clicking a node and selecting the desired function
 - Additional functionality is available via the **Control Panel** in the bottom left (you may hover to see each function)
 
-![2024-10-25 13-34-22](https://github.com/user-attachments/assets/db924b0a-57ac-47ab-8d4f-31e5a8dfca60)
+
+https://github.com/user-attachments/assets/d479df42-cd79-46e8-90ef-778205dc9a8a
 
 
 ### Summary
