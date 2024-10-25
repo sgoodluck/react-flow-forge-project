@@ -11,20 +11,27 @@ I think the React Flow library looks like an excellent choice
 ### Core Requirements
 
 [x] Adding Nodes
+
 [x] Removing Nodes
+
 [x] Connecting Nodes
+
 [x] Moving Nodes
 
 ### Additional Features:
 
 [x] User defined labels
+
 [x] Interactivity
+
 [x] Persistence
 
 ### Dealer's Choice Features:
 
 [x] Basic styling using tailwind
+
 [x] Custom controls menu
+
 [x] Active styling
 
 ### Stuff I would have liked to do
