@@ -51,28 +51,29 @@ const CustomNode: React.FC<NodeProps<CustomNodeData>> = ({
         )}
 
         {/* Node Label + Input */}
-        {isEditing ? (
-          <input
-            className="mt-1 rounded-lg border border-gray-300 bg-transparent px-2 py-1 text-xs text-gray-500 placeholder:text-slate-700 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-            value={label}
-            onChange={onChange}
-            onBlur={onBlur}
-            onKeyDown={keyDownHandler}
-            placeholder="Describe Task..."
-            autoFocus
-          />
-        ) : (
-          <div
-            className="mt-1 cursor-pointer text-sm text-white"
-            onClick={() => setIsEditing(true)}
-          >
-            {label}
-          </div>
-        )}
+        <div className="p-3">
+          {isEditing ? (
+            <input
+              className="mt-1 rounded-lg border border-gray-300 bg-transparent px-2 py-1 text-xs text-gray-500 placeholder:text-slate-700 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+              value={label}
+              onChange={onChange}
+              onBlur={onBlur}
+              onKeyDown={keyDownHandler}
+              placeholder="Describe Task..."
+              autoFocus
+            />
+          ) : (
+            <div
+              className="mt-1 cursor-pointer text-sm text-white"
+              onClick={() => setIsEditing(true)}
+            >
+              {label}
+            </div>
+          )}
 
-        {/* Node ID */}
-        <div className="text-xs text-gray-400">Task ID: {id}</div>
-
+          {/* Node ID */}
+          <div className="text-xs text-gray-400">Task ID: {id}</div>
+        </div>
         <Handle
           type="source"
           position={Position.Right}
