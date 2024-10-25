@@ -40,8 +40,20 @@ export const Chart = () => {
     if (JSON.stringify(updatedNodes) !== JSON.stringify(nodes)) {
       setNodes(updatedNodes);
     }
-  }, [nodes, edges]);
 
+    // Update edges based on node completion status
+    const updatedEdges = edges.map((edge) => {
+      const sourceNode = nodes.find((node) => node.id === edge.source);
+      if (sourceNode && !sourceNode.data.isComplete) {
+        return { ...edge, animated: true }; // Set animated to true if source node is not complete
+      }
+      return { ...edge, animated: false }; // Set animated to false if source node is complete
+    });
+
+    if (JSON.stringify(updatedEdges) !== JSON.stringify(edges)) {
+      setEdges(updatedEdges);
+    }
+  }, [nodes, edges]);
   const updateNodeLabel = useCallback(
     (nodeId: string, newLabel: string) => {
       setNodes((nodes) =>

@@ -18,7 +18,7 @@ I think the React Flow library looks like an excellent choice
 
 [x] Moving Nodes
 
-### Additional Features:
+### Additional Features
 
 [x] User defined labels
 
@@ -26,13 +26,17 @@ I think the React Flow library looks like an excellent choice
 
 [x] Persistence
 
-### Dealer's Choice Features:
+### Dealer's Choice Features
 
 [x] Basic styling using tailwind
 
 [x] Custom controls menu
 
 [x] Active styling
+
+### Known Issues
+
+- It is possible to mark a node as complete, step through the automation and then mark a previously completed node as incomplete. This should be disallowed or at least some kind of warning should be issued to a user.
 
 ### Stuff I would have liked to do
 
