@@ -9,7 +9,7 @@ export const createNode = (): Node<CustomNodeData> => {
     sourcePosition: Position.Right,
     targetPosition: Position.Left,
     data: {
-      label: "",
+      label: "Describe task...",
       onLabelChange: () => {},
       isActive: false,
       isComplete: false,
