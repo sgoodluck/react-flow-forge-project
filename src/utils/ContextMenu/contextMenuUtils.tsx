@@ -4,7 +4,7 @@ import { generateNodeId } from "@utils/Nodes";
 // Utility function to duplicate a node
 export const duplicateNode = (
   id: string,
-  getNode: (id: string) => Node | null,
+  getNode: (id: string) => Node | undefined,
   addNodes: (node: Node) => void,
 ): void => {
   const node = getNode(id);
@@ -27,32 +27,27 @@ export const duplicateNode = (
 // Utility function to delete a node
 export const deleteNode = (
   id: string,
+  nodes: Node[],
+  edges: Edge[],
   setNodes: (nodes: Node[]) => void,
   setEdges: (edges: Edge[]) => void,
 ): void => {
-  type NewType = Node;
-
-  // @ts-ignore
-  setNodes((nodes: NewType[]) => nodes.filter((node) => node.id !== id));
-  // @ts-ignore
-  setEdges((edges: Edge[]) => edges.filter((edge) => edge.source !== id));
+  setNodes(nodes.filter((node) => node.id !== id));
+  setEdges(edges.filter((edge) => edge.source !== id));
 };
 
 // Utility function to toggle completion status of a node
 export const toggleComplete = (
-  id: string,
-  getNode: (id: string) => Node | null,
+  currentNode: Node | undefined,
+  nodes: Node[],
+  edges: Edge[],
+  getNode: (id: string) => Node | undefined,
   setNodes: (nodes: Node[]) => void,
-  getEdges: () => Edge[],
 ): void => {
-  const currentNode = getNode(id);
   if (!currentNode) return;
 
-  // Get all edges
-  const edges = getEdges();
-
   // Check all incoming edges
-  const incomingEdges = edges.filter((edge) => edge.target === id);
+  const incomingEdges = edges.filter((edge) => edge.target === currentNode.id);
   const allInputsComplete = incomingEdges.every((edge) => {
     const sourceNode = getNode(edge.source);
     return sourceNode?.data.isComplete; // Check if source node is complete
@@ -60,10 +55,9 @@ export const toggleComplete = (
 
   // Only toggle if all inputs are complete
   if (allInputsComplete) {
-    // @ts-ignore
-    setNodes((nodes: Node[]) =>
-      nodes.map((node) =>
-        node.id === id
+    setNodes(
+      nodes.map((node: Node) =>
+        node.id === currentNode.id
           ? {
               ...node,
               data: {

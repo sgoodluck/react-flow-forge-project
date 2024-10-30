@@ -1,4 +1,4 @@
-import { Node, Edge, Connection, addEdge } from "reactflow";
+import { Node, Edge, Connection, addEdge, Viewport } from "reactflow";
 import { createNode } from "@utils/Nodes";
 
 // Utility function save the current chart
@@ -6,7 +6,7 @@ export const saveChart = (
   flowKey: string,
   nodes: Node[],
   edges: Edge[],
-  getViewport: () => any,
+  getViewport: () => Viewport,
 ) => {
   const viewport = getViewport() || { x: 0, y: 0, zoom: 1 };
 
@@ -24,8 +24,8 @@ export const restoreChart = (
   flowKey: string,
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
   setEdges: React.Dispatch<React.SetStateAction<Edge[]>>,
-  setViewport: (viewport: any) => void,
-) => {
+  setViewport: (viewport: Viewport) => void,
+): void => {
   let flow;
   const flowData = localStorage.getItem(flowKey);
 

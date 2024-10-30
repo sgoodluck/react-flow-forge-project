@@ -53,7 +53,7 @@ export const Chart = () => {
     if (JSON.stringify(updatedEdges) !== JSON.stringify(edges)) {
       setEdges(updatedEdges);
     }
-  }, [nodes, edges]);
+  }, [nodes, edges, setNodes, setEdges]);
   const updateNodeLabel = useCallback(
     (nodeId: string, newLabel: string) => {
       setNodes((nodes) =>
@@ -69,7 +69,7 @@ export const Chart = () => {
 
   const addNode = useCallback(() => {
     addNodeUtil(setNodes, updateNodeLabel);
-  }, [updateNodeLabel]);
+  }, [setNodes, updateNodeLabel]);
 
   const connectNodes = useCallback(
     (params: Connection) => connectNodesUtil(setEdges)(params),
@@ -98,7 +98,7 @@ export const Chart = () => {
 
   const saveCurrentChart = useCallback(() => {
     saveChart(flowKey, nodes, edges, getViewport);
-  }, [nodes, edges]);
+  }, [nodes, edges, getViewport]);
 
   const restoreCurrentChart = useCallback(() => {
     restoreChart(flowKey, setNodes, setEdges, setViewport);

@@ -11,7 +11,6 @@ export const createNode = (): Node<CustomNodeData> => {
     targetPosition: Position.Left,
     data: {
       label: "Describe task...",
-      onLabelChange: () => {},
       isActive: false,
       isComplete: false,
     },
@@ -20,7 +19,7 @@ export const createNode = (): Node<CustomNodeData> => {
 };
 
 // Utility function to generate a random node id
-export const generateNodeId = (length: number = 8): string => {
+export const generateNodeId = (length = 8): string => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";

@@ -1,14 +1,6 @@
 import { useReactFlow, Node } from "reactflow";
 import { duplicateNode, deleteNode, toggleComplete } from "@utils/ContextMenu";
-
-interface ContextMenuProps {
-  id: string;
-  top?: number | string;
-  left?: number | string;
-  right?: number | string;
-  bottom?: number | string;
-  onClose: () => void;
-}
+import { ContextMenuProps } from "@utils/interfaces";
 
 export const ContextMenu = ({
   id,
@@ -18,8 +10,12 @@ export const ContextMenu = ({
   bottom,
   onClose,
 }: ContextMenuProps) => {
-  const { getNode, setNodes, addNodes, setEdges, getEdges } = useReactFlow();
+  const { getNodes, getNode, setNodes, addNodes, setEdges, getEdges } =
+    useReactFlow();
+
   const currentNode = getNode(id);
+  const allNodes = getNodes();
+  const allEdges = getEdges();
 
   return (
     <div
@@ -31,12 +27,7 @@ export const ContextMenu = ({
       <button
         className="block w-full px-4 py-2 text-left transition-colors duration-200"
         onClick={() => {
-          toggleComplete(
-            id,
-            getNode as (id: string) => Node | null,
-            setNodes,
-            getEdges,
-          );
+          toggleComplete(currentNode, allNodes, allEdges, getNode, setNodes);
           onClose();
         }}
       >
@@ -56,7 +47,7 @@ export const ContextMenu = ({
       <button
         className="block w-full px-4 py-2 text-left transition-colors duration-200 hover:bg-gray-100"
         onClick={() => {
-          deleteNode(id, setNodes, setEdges);
+          deleteNode(id, allNodes, allEdges, setNodes, setEdges);
           onClose();
         }}
       >

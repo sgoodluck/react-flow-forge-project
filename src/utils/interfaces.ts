@@ -1,6 +1,6 @@
 export interface CustomNodeData {
   label: string;
-  onLabelChange: (id: string, newLabel: string) => void;
+  onLabelChange?: (id: string, newLabel: string) => void;
   isActive: boolean;
   isComplete: boolean;
 }
@@ -19,6 +19,7 @@ export interface ContextMenuProps {
   left?: number | string;
   right?: number | string;
   bottom?: number | string;
-  onClick?: () => void; // Add this line
-  [key: string]: any;
+  onClick?: () => void;
+  onClose: () => void;
+  [key: string]: unknown;
 }
